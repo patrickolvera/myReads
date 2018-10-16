@@ -5,19 +5,8 @@ class BookShelves extends Component {
 
   render () {
 
-    const { books } = this.props
-    const shelves = []
-    let previousShelf = null
-
-    // Create bookshelves
-    books.forEach((book) => {
-      if (book.shelf !== previousShelf) {
-        shelves.push(
-          <BookShelf books={books} shelf={book.shelf} key={book.shelf}/>
-        )
-      }
-      previousShelf = book.shelf
-    })
+    const { books, moveBook } = this.props
+    const uniqueShelves = ["currentlyReading", "wantToRead", "read"]
 
     return (
       <div className="list-books">
@@ -26,7 +15,17 @@ class BookShelves extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            {shelves}
+          {uniqueShelves.map((shelfName) => {
+            return (
+              <BookShelf
+                books={books}
+                shelf={shelfName}
+                uniqueShelves={uniqueShelves}
+                moveBook={moveBook}
+                key={shelfName}
+              />
+            )
+          })}
           </div>
         </div>
         <div className="open-search">
@@ -40,20 +39,35 @@ class BookShelves extends Component {
 
 class BookShelf extends Component {
 
+  formatShelfName = (name) => {
+    const uncamel = name.replace( /([A-Z])/g, " $1" )
+    return uncamel.charAt(0).toUpperCase() + uncamel.slice(1)
+  }
+
   render() {
-    const { books, shelf } = this.props
-    // Format shelf name
-    const shelfString = this.props.shelf.replace( /([A-Z])/g, " $1" )
-    const shelfName = shelfString.charAt(0).toUpperCase() + shelfString.slice(1)
+    const { books, shelf, uniqueShelves, moveBook } = this.props
+    const shelfName = this.formatShelfName(shelf)
+    const matchingBooks = books.filter((book) => book.shelf === shelf)
 
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{shelfName}</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-        {/* Add the correct books to current shelf */}
-          {books.filter((book) => book.shelf === shelf)
-          .map((book) => <Book book={book} key={book.id}/>)}
+          { books.filter((book) => book.shelf === shelf)
+            .map((book) =>
+              <Book
+                book={book}
+                uniqueShelves={uniqueShelves}
+                formatShelfName={this.formatShelfName}
+                moveBook={moveBook}
+                key={book.id}
+              />
+            )
+          }
+          { matchingBooks.length === 0 && (
+            <div className="empty-shelf">Add your <b>{shelfName.toLowerCase()}</b> books here</div>
+          )}
           </ol>
         </div>
       </div>
@@ -64,24 +78,41 @@ class BookShelf extends Component {
 class Book extends Component {
 
   render () {
-    const { book } = this.props
+    const { book, uniqueShelves, formatShelfName, moveBook } = this.props
+    // Format Author Names
+    const lastAuthor = 'and ' + book.authors[book.authors.length - 1]
+    const authorsCopy = book.authors.slice(0)
+
+    authorsCopy.splice(-1 , 1, lastAuthor)
+
     return (
       <li>
         <div className="book">
           <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
             <div className="book-shelf-changer">
-              <select>
+              <select value={book.shelf} onChange={(event) => moveBook(book, event.target.value)}>
                 <option value="move" disabled>Move to...</option>
-                <option value="currentlyReading">Currently Reading</option>
-                <option value="wantToRead">Want to Read</option>
-                <option value="read">Read</option>
+                {uniqueShelves.map((shelf) =>
+                <option
+                  key={shelf}
+                  value={shelf}
+                  >{formatShelfName(shelf)}
+                </option>
+                )}
                 <option value="none">None</option>
               </select>
             </div>
           </div>
           <div className="book-title">{book.title}</div>
-          <div className="book-authors">{book.authors.join(', ')}</div>
+          {/* TODO: add and here */}
+          <div className="book-authors">
+          { book.authors.length > 1 ?
+            authorsCopy.join(', ')
+          :
+            book.authors
+          }
+          </div>
         </div>
       </li>
     )

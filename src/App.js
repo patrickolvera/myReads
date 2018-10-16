@@ -3,8 +3,6 @@
 * TODO:
 *
 * 1) Compose and attach methods for managing book state
-*   <- Home page ->
-*     * Book changes shelf on user input
 *   <- Search page ->
 *     * Install PropTypes, escapeRegExp, and sortBy
 *     * Search functionality (using BooksAPI)
@@ -34,6 +32,7 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false,
+    // TODO: Sort books into piles here
     books: []
   }
 
@@ -41,6 +40,7 @@ class BooksApp extends React.Component {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
     })
+    .catch((err) => console.log('Problem getting books: ' + err))
   }
 
   showSearchPage = () => {
@@ -51,13 +51,27 @@ class BooksApp extends React.Component {
     this.setState({ showSearchPage: false })
   }
 
+  moveBook = async (book, shelf) => {
+    try {
+      await BooksAPI.update(book, shelf)
+    } catch(err) {
+      console.log(err)
+      return
+    }
+
+    book.shelf = shelf
+    const movedBooks = this.state.books.filter((b) => (b.id !== book.id)).concat(book)
+    this.setState({ books: movedBooks })
+  }
+
   render() {
     return (
       <div className="app">
         {!this.state.showSearchPage ?
           <BookShelves
-          books={this.state.books}
-          showSearchPage={this.showSearchPage}
+            books={this.state.books}
+            showSearchPage={this.showSearchPage}
+            moveBook={this.moveBook}
           />
         :
           <SearchPage

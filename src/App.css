@@ -30,6 +30,14 @@ body, .app {
   padding: 0 10px 20px;
 }
 
+.empty-shelf {
+  display: table-cell;
+  height: 260px;
+  letter-spacing: 2px;
+  padding-top: 140px;
+  vertical-align: middle;
+}
+
 @media (min-width: 600px) {
   .bookshelf {
     padding: 0 20px 40px;
