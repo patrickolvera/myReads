@@ -72,4 +72,4 @@ The backend API uses a fixed set of cached search results and is limited to a pa
 
 ## License
 
-This project is licensed under the MIT license. View [`LICENSE`](src/LICENSE) for more information.
+This project is licensed under the MIT license. View [`LICENSE`](LICENSE) for more information.
