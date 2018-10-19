@@ -25,9 +25,9 @@ class Book extends Component {
       authorsCopy = book.authors.slice(0)
       authorsCopy.splice( -1, 1, lastAuthor )
     }
-    // If no book.shelf set select value to "move"
+    // If no book.shelf set select value to "none"
     if (!book.shelf) {
-      book.shelf = 'move'
+      book.shelf = 'none'
     }
 
     return (

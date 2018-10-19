@@ -19,7 +19,7 @@ import './App.css'
 class BooksApp extends React.Component {
   state = {
     books: [],
-    uniqueShelves: ["currentlyReading", "wantToRead", "read", "onHold"] // Shelves to be rendered ** MUST BE CAMELCASED **
+    uniqueShelves: ["currentlyReading", "wantToRead", "read"] // Shelves to be rendered ** MUST BE CAMELCASED **
   }
 
   componentDidMount() {
@@ -59,7 +59,7 @@ class BooksApp extends React.Component {
             moveBook={this.moveBook}
           />
         )}/>
-        <Route path="/search-books" render={() => (
+        <Route path="/search" render={() => (
           <SearchPage
             books={this.state.books}
             formatShelfName={this.formatShelfName}
