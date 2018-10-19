@@ -2,17 +2,14 @@
 *
 * TODO:
 *
-* 1) Compose and attach methods for managing book state
-*   <- Search page ->
-*     * Install PropTypes, escapeRegExp, and sortBy
-*     * Search functionality (using BooksAPI)
-*     * State managed on search page (changing book's shelf)
-* 2) Routing
+* 1) Routing
 *    - Install React Router
 *    - Install Route elements
 *    - Use Link elements
 *    - Manage url updates
-* 3) Rewrite README
+* 2) Rewrite README, and Add License
+*    - License tag in package.JSON
+*    - Add a License file
 *
 ***********************************************************************/
 
@@ -32,8 +29,8 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false,
-    // TODO: Sort books into piles here
-    books: []
+    books: [],
+    uniqueShelves: ["currentlyReading", "wantToRead", "read", "onHold"] // Shelves to be rendered ** MUST BE CAMELCASED **
   }
 
   componentDidMount() {
@@ -41,6 +38,11 @@ class BooksApp extends React.Component {
       this.setState({ books })
     })
     .catch((err) => console.log('Problem getting books: ' + err))
+  }
+
+  formatShelfName = (name) => {
+    const uncamel = name.replace( /([A-Z])/g, " $1" )
+    return uncamel.charAt(0).toUpperCase() + uncamel.slice(1)
   }
 
   showSearchPage = () => {
@@ -60,6 +62,7 @@ class BooksApp extends React.Component {
     }
 
     book.shelf = shelf
+    // Get rid of old book in state.books and add updated book
     const movedBooks = this.state.books.filter((b) => (b.id !== book.id)).concat(book)
     this.setState({ books: movedBooks })
   }
@@ -70,12 +73,18 @@ class BooksApp extends React.Component {
         {!this.state.showSearchPage ?
           <BookShelves
             books={this.state.books}
+            formatShelfName={this.formatShelfName}
+            uniqueShelves={this.state.uniqueShelves}
             showSearchPage={this.showSearchPage}
             moveBook={this.moveBook}
           />
         :
           <SearchPage
+            books={this.state.books}
+            formatShelfName={this.formatShelfName}
             hideSearchPage={this.hideSearchPage}
+            uniqueShelves={this.state.uniqueShelves}
+            moveBook={this.moveBook}
           />
         }
       </div>

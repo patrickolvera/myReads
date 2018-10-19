@@ -1,8 +1,10 @@
 {
   "dependencies": {
-    "prop-types": "^15.6.1",
+    "prop-types": "^15.6.2",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react-dom": "^16.3.2",
+    "sort-by": "^1.2.0",
+    "yarn": "^1.10.1"
   },
   "devDependencies": {
     "react-scripts": "1.1.4"
@@ -12,5 +14,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "optionalDependencies": {}
 }
