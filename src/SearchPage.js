@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import * as BooksAPI from './BooksAPI'
 import sortBy from 'sort-by'
@@ -58,8 +59,7 @@ class SearchPage extends Component {
     return (
       <div className="search-books">
         <div className="search-books-bar">
-        {/* TODO: Use Link Element here */}
-          <a className="close-search" onClick={() => this.props.hideSearchPage()}>Close</a>
+          <Link to="/" className="close-search">Close</Link>
           <div className="search-books-input-wrapper">
             {/*
               NOTES: The search from BooksAPI is limited to a particular set of search terms.
