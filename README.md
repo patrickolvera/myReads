@@ -2,6 +2,10 @@
 
 This is my deployment of the final assessment project for Udacity's React Fundamentals course which is part of [Udacity's Front-End Web Developer Nanodegree Program](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001). MyReads utilizes the [React JavaScript framework](https://github.com/facebook/react) and [React Router](https://github.com/ReactTraining/react-router) to create a single page web application that allows you to search for books and keep track of them by putting them on different book shelves.
 
+## Live Demo
+
+See Live at: [https://myreads-patrickolvera.netlify.com/](https://myreads-patrickolvera.netlify.com/)
+
 ## Installation
 
 To get MyReads up and running on your local machine first make sure you have npm installed. Npm installs automatically with Node.js. You can check your node version by opening up your terminal and typing:
