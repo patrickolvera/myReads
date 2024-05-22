@@ -4,7 +4,7 @@ This is my deployment of the final assessment project for Udacity's React Fundam
 
 ## Live Demo
 
-See Live at: [https://myreads-patrickolvera.netlify.com/](https://myreads-patrickolvera.netlify.com/)
+See Live at: [https://myreads-patrickolvera.netlify.app/](https://myreads-patrickolvera.netlify.app/)
 
 ## Installation
 
